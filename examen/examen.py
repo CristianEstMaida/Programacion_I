@@ -1,93 +1,99 @@
-"""Parte teorica -> 60% para aprobar (acceden al práctico)    multiple choise. 30 min.
-Repasen las ppts!
-
-Parte practica -> 3hs hasta las 22:15 se entrega por MOODLE (campus virtual)!
-Se entregan 2 archivos .py! (Biblioteca con funciones y archivo principal (main))
-Deben tener camara, microfono y poder compartir pantalla
-
-APROBACION NO DIRECTA:
-4 o 5 como minimo en cada uno de los 2 examenes parciales (Se debe rendir final)
-Se puede levantar nota en los recuperatorios.
-
-APROBACION DIRECTA (PROMOCION):
-6 o mas en cada uno de los 2 examenes parciales (No se rinde final)
-
-NO SE ADMITE: Plagio, ChatGPT, Google!
-Permitido: utilizar y ver los ejemplos de ejercicios que se hicieron en clase y
-cualquier funcion propia.
-
-Apellido y Nombre: Maida Cristian Esteban
-Asignatura: Programacion I
-Division: 312
-Fecha: 08/10/2024
-Instancia: Primer Parcial
-
-"""
-
-import os
 from biblioteca import *
 
-bandera = False
-bandera_5 = False
-lista_aleatoria = []
-lista_caracteres = []
-lista_ordenada = []
-lista_caracteres = []
-lista_cantidad_repetidos = []
+# Desarrollar en Python:
+
+# Crear una biblioteca que contenga las siguientes funciones:
+
+# Desarrollar una función que genere de manera aleatoria una lista alfanumérica de mil (1000) elementos cuyos caracteres podrán ser los siguientes 0-9 A-Z 
+# (del ‘0’ al ‘9’ y de la ‘A’ a la ‘Z’).
+
+# Desarrollar una función que genere de manera aleatoria una matriz de 10 filas por 10 columnas (10 listas de 10 elementos cada una), de números enteros.
+
+# Desarrollar una función que ordene una lista de números enteros, recibiendo como parámetro el criterio de ordenamiento ASC o DESC.
+
+# Desarrollar una función que valide el ingreso de un número entero, para ser utilizada en el ítem 6.
+# Luego, se deberá programar un menú de opciones operado por consola, que realice lo siguiente:
+
+# 1 – Generar la lista alfanumérica aleatoria utilizando la función desarrollada.
+
+# 2 – Ordenar la lista alfanumérica generada anteriormente, utilizando la función desarrollada.
+
+# 3 – Buscar e informar cuantas veces se repite cada uno de los caracteres alfabéticos A-Z (de la ‘A’ a la ‘Z’).
+
+# El informe deberá realizarse con un registro debajo del otro y el mismo tendrá el siguiente encabezado:
+
+# CARACTER | CANTIDAD
+
+# 4 – Del ítem anterior, obtener:
+
+    # El caracter que más veces se repite e informar la cantidad.
+    # El caracter que menos veces se repite e informar la cantidad.
+
+# 5 – Generar la matriz aleatoria de números enteros, utilizando la función desarrollada.
+
+# 6 – Se debe ingresar una secuencia numérica (de dos dígitos como mínimo), por consola, validando que la misma corresponda a un número entero.
+
+# Luego buscar (de manera horizontal), en la matriz si existe la secuencia numérica ingresada en el ítem anterior.
+
+# Por último informar:
+
+# En caso negativo informar por pantalla: “La secuencia numérica <secuencia numérica> no existe en la matriz.
+# En caso positivo, informar por pantalla: “La secuencia numérica <secuencia numérica> existe en la matriz.
+
+# 7 – Salir.
+
+# Menu
+flag = False
+flag_2 = False
 
 while True:
-    opcion_seleccionada = input(crear_menu())
-    # os.system("cls")
-    match opcion_seleccionada:
+    match menu_4_case(
+        "1- [Generar lista alfanumerica aleatoria]",
+        "2- [Ordenar la lista alfanumérica generada]",
+        "3- {Buscar e informar cuantas veces se repite cada uno de los caracteres alfabéticos A-Z]",
+        "4- [Caracter mas repetido y menos repetido]",
+        "5- [Generar matriz aleatoria]",
+        "6- [Buscar secuencia numerica y informar]",
+        "7- [Salir]"):
         case "1":
-            lista_aleatoria = cargar_lista_aleatoria(500, 48, 57, 65, 90)
-            bandera = True
+            lista_alfanumerica = generar_lista_random_alfanumerica(1000)
+            flag = True
         case "2":
-            if bandera == True:
-                lista_ordenada = ordenar_lista(lista_aleatoria)
+            if not flag:
+                print("No puede ordenar los datos si no genera una lista aleatoria!")
             else:
-                print("Primero se debe generar una lista de manera aleatoria")
+                criterio = input("Ingrese criterio de ordenamiento: ")
+                while (criterio != "asc" and criterio != "dsc") and (criterio != "ASC" and criterio != "DSC"):
+                    criterio = input("ERROR! Solo elegir 'asc' o 'dsc'. Ingrese criterio de ordenamiento: ")
+                ordenar_lista(lista_alfanumerica, criterio)
         case "3":
-            if bandera == True:
-                lista_caracteres = filtar_lista_letras(lista_ordenada)
-                lista_cantidad_repetidos = encontrar_caracteres_repetidos(lista_caracteres)
-                mostrar_cabecera("CARACTER", "CANTIDAD")
-                print("--------------------------")
-                mostrar(lista_caracteres, lista_cantidad_repetidos)
+            if not flag:
+                print("ERROR! Primero debe generar la lista alfanumerica!")
             else:
-                print("Primero se debe generar una lista de manera aleatoria")
+                conteo = contar_caracteres(lista_alfanumerica)
+                mostrar_resultado_punto_3(conteo)
         case "4":
-            if bandera == True:
-                caracter_mas_repetido = encontrar_caracter_repetido(lista_cantidad_repetidos, "max")
-                mayor = identificar_valor_maximo(lista_cantidad_repetidos)
-                caracter_menos_repetido = encontrar_caracter_repetido(lista_cantidad_repetidos, "min")
-                menor = identificar_valor_minimo(lista_cantidad_repetidos)
-                mostrar_dato(f"El caracter mas repetido es {caracter_mas_repetido} y se repite {mayor} veces")
-                mostrar_dato(f"El caracter menos repetido es {caracter_menos_repetido} y se repite {menor} veces")
+            if not flag:
+                print("ERROR! Primero debe generar la lista alfanumerica!")
             else:
-                print("Primero se debe generar una lista de manera aleatoria")
+                lista_minimo = buscar_valor_minimo_y_maximo(lista_alfanumerica, "max")
+                lista_maximo = buscar_valor_minimo_y_maximo(lista_alfanumerica, "min")
+                mostrar_resultado_punto_4(lista_minimo, lista_maximo)
         case "5":
-            matriz = crear_matriz_aleatoria(10, 10, 10, 999)
-            bandera_5 = True
+            matriz_aleatoria = crear_matriz_aleatoria(10, 10, 1, 10)
+            flag_2 = True
         case "6":
-            if bandera_5 == True:
-                lista_enteros = cargar_lista_enteros("Ingrese un numero", 10, 999)
-                
-                flag = determinar_matriz_secuencia(matriz, lista_enteros)
-                if flag == True:
-                    print("La secuencia numerica ", end="")
-                    mostrar_lista_formateada(lista_enteros)
-                    print("existe en la matriz")
-                else:
-                    print("La secuencia numerica ", end="")
-                    mostrar_lista_formateada(lista_enteros)
-                    print("no existe en la matriz")
+            if not flag_2:
+                print("ERROR! Primero debe generar la matriz!")
             else:
-                print("Primero se debe generar la matriz")
-
+                print(matriz_aleatoria)
+                digit = input("Ingrese una secuencia numerica: ")
+                while not validar_numero_entero(digit):
+                    digit = input("Ingrese una secuencia numerica: ")
+                busqueda_digito = buscar_secuencia(matriz_aleatoria, digit)
         case "7":
-            break
-        case _:
-            print("Error, opcion incorrecta")
-
-print("Programa terminado")
+            opcion = input("Confirma que quiere salir?: ")
+            resultado = confirmar_salir(opcion)
+            if resultado:
+                break
+    pausar()
