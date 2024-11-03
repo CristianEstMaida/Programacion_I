@@ -195,6 +195,12 @@ def mostrar_lista_formateada(lista:list):
     print(resultado)
 
 def contar_condicion(lista:list)->list:
+    """
+    La funcion cuenta la cantidad de alumnos de una lista que estan aprobados, 
+    promociondos o reprobados.
+    Recibe la lista (list).
+    Retorna la cantidad en una lista.
+    """
     cantidad_aprobados = 0
     cantidad_promocionados = 0
     cantidad_reprobados = 0
