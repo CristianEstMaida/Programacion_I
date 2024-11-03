@@ -1,172 +1,89 @@
 import random
+from os import system
 
-def crear_menu()->str:
-    """
-    La funcion crea un mensaje para que se pueda pedir una opcion de un menu.
-    No recibe valores por parametro.
-    Retorna el mensaje
-    """
-    menu = """
-    ===== Mi Programa =====
-    1) Generar una lista alfanumerica aleatoria.
-    2) Ordenar la lista alfanumerica.
-    3) Buscar e informar cuantas veces se repite cada uno de los caracteres alfabeticos A-Z.
-    4) El caracter que más veces se repite e informar la cantidad.
-    El caracter que menos veces se repite e informar la cantidad.
-    5) Generar una matriz aleatoria de números enteros.
-    6) Buscar e informar si en la matriz existe una secuencia numerica ingresada.
-    7) Salir
-    ========================
-
-    Ingrese la opcion del menu: """
-    return menu
-
-def cargar_lista_aleatoria(numero:int, valor_desde_a:int, valor_hasta_a:int, valor_desde_b:int, valor_hasta_b:int)->int:
+def generar_lista_random_alfanumerica(cantidad:int)->list:
     '''
     La funcion carga una lista de caracteres 0-9A-Z de forma aleatoria.
-    Recibe un numero (int), dos valor desde (int) y dos valores hasta (int).
+    Recibe un numero (int).
     Retorna la lista cargada. 
     '''
-    lista_random = []
-    for _ in range(numero):
-        valor_a = chr(random.randint(valor_desde_a, valor_hasta_a))
-        valor_b = chr(random.randint(valor_desde_b, valor_hasta_b))
-        lista_random += [valor_a]
-        lista_random += [valor_b]
-    return lista_random
+    lista = []
+    for i in range(cantidad):
+        caracter = chr(random.randint(48, 90))
+        while ord(caracter) < 65 and ord(caracter) > 57:
+            caracter = chr(random.randint(48, 90))
+        lista += [caracter]
+    return lista
 
-def determinar_letra(caracter:str)->bool:
+def ordenar_lista(lista:list, criterio:str = "asc")->bool:
     '''
-    La función determina si un caracter está comprendido entre A-Z.
-    Recibe un caracter de tipo str.
-    Retorna True si estra comprendido entre  A-Z y en caso contrario retorna False.
+    La funcion ordena una lista según un criterio ascendente o descendente.
+    Recibe la lista (list) y el criterio (str).
+    Retorna la lista ordenada.
     '''
-    retorno = False
-    if caracter >= 'A' and caracter <= 'Z':
-        retorno = True
-    return retorno
+    flag = False
+    for i in range(len(lista) - 1):
+        for j in range(i + 1, len(lista)):
+            if (criterio == "asc" and lista[i] > lista[j]) or (criterio == "dsc" and lista[i] < lista[j]):
+                aux = lista[i]
+                lista[i] = lista[j]
+                lista[j] = aux
+                flag = True
+    return flag
 
-def filtar_lista_letras(lista:list)->list:
+def contar_caracteres(lista:list):
     '''
-    
+    Crea una lista de conteo para las letras de "A" a "Z".
+    Recibe una lista.
+    Retorna la lista con la cantidad de letras.
     '''
-    lista_letras = []
-    for elemento in lista:
-        es_letra = determinar_letra(elemento)
-        if es_letra == True:
-            lista_letras += [elemento]
-    return lista_letras
+    conteo = [0] * 26
+    for caracter in lista:
+        if 'A' <= caracter <= 'Z':
+            indice = ord(caracter) - ord('A')
+            conteo[indice] += 1
+    return conteo
 
-def encontrar_caracteres_repetidos(lista:list)->list:
-    '''
-    
-    '''
-    lista_cantidad_caracteres_repetidos = []
-    for elemento in lista:
-        lista_cantidad_caracteres_repetidos += [determinar_repetidos(lista, elemento)]
-    return lista_cantidad_caracteres_repetidos
-
-def determinar_repetidos(lista:list, valor:int)->int:
-    '''
-    La funcion cuenta la cantidad de elementos de una lista que repiten un 
-    valor.
-    Recibe la lista (list) y el valor (int).
-    Retorna la cantidad.
-    '''
-    contador = 0
-    for elemento in lista:
-        if elemento == valor:
-            contador += 1
-    return contador
-
-def mostrar_cabecera(cadena_a:str, cadena_b:str)->None:
-    """
-    La funcion muestra la cabecera de un listado con informacion de las 
-    listas.
-    Recibe dos cadenas (str).
-    Retorna None
-    """
-    print(f"{cadena_a:10} {cadena_b:5}")
-
-def mostrar_uno(pos:int, lista_posicion_a:list, lista_posicion_b:list)->None:
-    """
-    Muestra un elemento de cada listado.
-    Recibe una posicion (int) a la que se va acceder en el listado y dos listas (list).
-    Retorna None
-    """
-    print(f"{lista_posicion_a[pos]:10} {lista_posicion_b[pos]:8}")
-
-def mostrar(lista_a:list, lista_b:list)->None:
-    """
-    Muestra los listados de los alumnos.
-    Recibe dos listas (list).
+def mostrar_lista_paralela(lista_a:list, lista_b:list) -> None:
+    ''' 
+    Muestra lista paralelas.
+    Recibe dos listas.
     Retorna None.
-    """
+    '''
     for i in range(len(lista_a)):
-        mostrar_uno(i, lista_a, lista_b)
-    print("\n")
+        print(f"      {lista_a[i]} --> {lista_b[i]}")
 
-def identificar_valor_maximo(lista:list)->int|None:
-    '''
-    La funcion encuentra un máximo en una lista.
-    Recibe la lista (list).
-    Retorna None cuando se produjo un error o la lista está vacía, caso contrario retorna el máximo.
-    '''
-    mayor = None
-    for i in range(len(lista)):
-        if mayor == None or lista[i] > mayor:
-            mayor = lista[i]
-    return mayor
 
-def encontrar_posicion_ocurrencias(lista:list, criterio:str)->int:
+def contador_de_caracteres(lista:list, caracteres:str):
+    ''' 
+    Cuenta los caracteres de una lista.
+    Recibe caracteres. Conjuntos de elementos (str). Y recibe una lista (list).
+    Retorna la lista con la cantidad de repetidos.
     '''
-    La funcion encuentra la posicion del elemento que tiene mas ocurrencias.
-    Recibe la lista (list).
-    Retorna la posicion.
-    '''
-    contador = 0
-    maximo = None
-    minimo = None
-    posicion = 0
-    for elemento in lista:
-        valor = determinar_repetidos(lista, elemento)
-        if criterio == "max":
-            if maximo == None or valor > maximo:
-                maximo = valor
-                posicion = contador
-        elif criterio == "min":
-            if minimo == None or valor < minimo:
-                minimo = valor
-                posicion = contador
-        contador += 1
-    return posicion
 
-def encontrar_caracter_repetido(lista:list, criterio:str)->int:
-    '''
-    
-    '''
-    posicion = encontrar_posicion_ocurrencias(lista, criterio)
-    return lista[posicion]
+    cantidad_repetidos = []
+    for caracter in caracteres:
+        contador = 0
+        for item in lista:
+            if caracter == item:
+                contador += 1
+        cantidad_repetidos += [contador]
+    mostrar_lista_paralela(caracteres, cantidad_repetidos)
 
-def identificar_valor_minimo(lista:list)->int:
-    '''
-    La funcion encuentra un minimo en una lista.
-    Recibe la lista (list).
-    Retorna None cuando se produjo un error o la lista está vacía, caso contrario retorna el minimo.
-    '''
-    menor = None
-    for i in range(len(lista)):
-        if menor == None or lista[i] < menor:
-            menor = lista[i]
-    return menor
+    return cantidad_repetidos
 
-def mostrar_dato(dato:str)->None:
-    """
-    Muestra el dato recibido por parametro.
-    Recibe un dato (str).
-    Devuelve un None.
-    """
-    print(dato)
+
+def inicializar_matriz(cant_filas:int, cant_columnas:int)->list:
+    '''
+    Inicializa un matriz.
+    Recibe dos numeros con la cantidad de filas y columnas.
+    Retorna la matriz inicializada.
+    '''
+    matriz = []
+    for _ in range(cant_filas):
+        matriz += [[None] * cant_columnas]
+    return matriz
+
 
 def crear_matriz_aleatoria(cantidad_filas:int, cantidad_columnas:int, desde:int, hasta:int)->list:
     '''
@@ -174,158 +91,203 @@ def crear_matriz_aleatoria(cantidad_filas:int, cantidad_columnas:int, desde:int,
     Recibe cantidad de filas, columnas, desde y hasta (int).
     Retorna la matriz.
     '''
-    matriz = inicializar_matriz(cantidad_filas, cantidad_columnas, 0)
+    matriz = inicializar_matriz(cantidad_filas,cantidad_columnas)
     for i in range(len(matriz)):
         for j in range(len(matriz[i])):
-            matriz[i][j] = random.randint(desde, hasta)
+            matriz[i][j] = str(random.randint(desde, hasta))
     return matriz
 
-def inicializar_matriz(cantidad_filas:int, cantidad_columnas:int, valor_inicial:any)->list:
-    matriz = []
-    for _ in range(cantidad_filas):
-        fila = [valor_inicial] * cantidad_columnas
-        matriz += [fila]
-    return matriz
 
-def ordenar_cadena(lista:list)->list:
-    lista_copia = lista[:]
-    for i in range(len(lista_copia) - 1):
-        for j in range(i + 1, len(lista_copia)):
-            if len(lista_copia[i]) > len(lista_copia[j]):
-                aux = lista_copia[i]
-                lista_copia[i] = lista_copia[j]
-                lista_copia[j] = aux
-    return lista_copia
-
-def ordenar_lista(lista:list, criterio:str = "asc")->list:
+def mostrar_matriz(matriz)->None:
     '''
-    La funcion ordena una lista según un criterio ascendente o descendente.
-    Recibe la lista (list) y el criterio (str).
-    Retorna la lista ordenada.
+    Muestra por pantalla una matriz de enteros, con los elementos alineados en columnas.
+    Recibe una matriz (list). La matriz a mostrar.
+    Retorna None.
     '''
-    for i in range(len(lista) -1):
-        for j in range(i + 1, len(lista)):
-            if criterio == "asc" and lista[i] > lista[j] or criterio == "desc" and lista[i] < lista[j]:
-                aux = lista[i]
-                lista[i] = lista[j]
-                lista[j] = aux
-    return lista
+    for i in range(len(matriz)):
+        for j in range(len(matriz[i])):
+            print(matriz[i][j], end=" ")
+        print(" ")
 
-def cargar_lista_enteros(mensaje:str, desde:int, hasta:int)->list:
-    '''
-    La funcion carga enteros en una lista.
-    Recibe un mensaje con lo que se pide y la cantidad de elementos de la 
-    lista.
-    Retorna la lista conformada con los datos ingresados por el usuario.
-    '''
-    lista = []
-    indice = 0
-    seguir = "S"
-    while seguir == "S":
-        valor = validar_convertir_entero(mensaje, desde, hasta, 
-                                          input(f"{mensaje} {indice + 1}: "))
-        lista += [valor]
-        indice += 1
-        seguir = input("Desea seguir cargando? S/N: ")
-        
-    return lista
-
-def validar_convertir_entero(mensaje:str, desde:int, hasta:int, 
-                            valor:str)->int|float|str:
-    """
-    La funcion valida un valor y lo convierte a un entero.
-    Rebice un mensaje (str), el tipo (type), un valor desde (int), un valor 
-    hasta (int) y un valor (str).
-    Retorna el valor validado y convertido.  
-    """
-    if validar_numero_entero(valor) == True:
-        valor = int(valor)
-        while validar_rango_entero(valor, desde, hasta) != True:
-            valor = solicitar_entero(mensaje, desde, hasta)
-
-def validar_rango_entero(numero_a_validar:int, minimo:int, maximo:int)->bool:
-    '''
-    La función determina si el entero ingresado está entre el rango mínimo y 
-    máximo.
-    Recibe el número a validar, el rango mínimo y el rango máximo.
-    Retorna True en caso de estar en el rango, sino retorna False.
-    '''
-
-    retorno = False
-
-    if numero_a_validar >= minimo and numero_a_validar <= maximo:
-        retorno = True
-
-    return retorno
-
-def solicitar_entero(mensaje:str, minimo:int, maximo:int)->int:
-    '''
-    La función solicita y valida un número entero
-    Recibe un mensaje y el rango mínimo y máximo
-    Retorna el número solicitado validado como un entero
-    '''
-
-    numero = minimo - 1
-    while validar_rango_entero(numero, minimo, maximo) == False:
-        numero = input(mensaje)
-        while validar_numero_entero(numero) != True:
-            numero = input(mensaje)
-        numero = int(numero)
-
-    return numero
 
 def validar_numero_entero(cadena:str)->bool:
     '''
-    La función valida si la cadena es convertible a entero.
-    Recibe la cadena a analizar.
-    Retorna un booleano, si es True es convertible, si es False no es 
-    convertible.
+    La función determina si el entero ingresado está entre el rango mínimo y 
+    maximo.
+    Recibe el numero a validar, el rango minimo y el rango maximo.
+    Retorna True en caso de estar en el rango, sino retorna False.
     '''
-    bandera = True
-    
+    flag = True
     for num in cadena:
-        if determinar_digito(num) != True:
-            bandera = False
-            break
-    return bandera
+        if num < "0" or num > "9":
+            flag = False
+    return flag
 
-def determinar_digito(caracter)->bool:
+def identificar_valor_maximo_y_minimo(lista:list)->None:
     '''
-    La función determina si el caracter recibido está entre 0 y 9
-    Recibe un caracter en formato string 
-    Retorna un booleano
+    La funcion busca cual es el caracter que se repite mas y menos veces.
+    Recibe como parametro una lista.
+    No retorna nada ya que se muestra el resultado por pantalla.
     '''
-    retorno = False
+    numero_menor = None
+    numero_mayor = None
+    for i in range(len(lista)):
+        caracter = lista[i]
+        if ord(lista[i]) > 64 and ord(lista[i]) < 91:
+            cantidad = contar_caracteres(lista, caracter)
 
-    if caracter >= '0' and caracter <= '9':
-        retorno = True
-
-    return retorno
-
-def determinar_matriz_secuencia(matriz:list, secuencia:list)->bool:
+def buscar_valor_minimo_y_maximo(lista:list, criterio:str)->list:
     '''
-    Determina si una matriz contiene al menos una secuencia de numeros.
-    Recibe la matriz y la secuencia (list).
-    Retorna True si la matriz contiene la secuencia o en caso contrario False.
+    Se busca caracter mayor.
+    Recibe una lista por parametro.
+    Retorna la lista.
+    '''
+    caracter = ""
+    contador_menor_mayor = None
+    caracter_menor_mayor = ""
+    for i in range(26):
+        contador = 0
+        for j in range(len(lista)):
+            if(lista[j] == chr(65 + i)): 
+                caracter = lista[j] 
+                contador += 1
+        if criterio == "max" and (contador_menor_mayor == None or contador > contador_menor_mayor):
+                contador_menor_mayor = contador
+                caracter_menor_mayor = caracter
+        if criterio == "min" and (contador_menor_mayor == None or contador < contador_menor_mayor):
+                contador_menor_mayor = contador
+                caracter_menor_mayor = caracter
+    return [caracter_menor_mayor, contador_menor_mayor]
+
+
+def buscar_secuencia(matriz:list, secuencia:str)-> bool:
+    '''
+    La funcion busca una secuencia en una matriz.
+    Recibe la matriz y la secuencia.
+    Retorna True en caso de encontrar la secuencia o False en caso contrario.
     '''
     resultado = False
-    for fila in matriz:
-        if fila == secuencia:
-            resultado = True
-            break
+    for i in range(len(matriz)):
+        bandera_secuencia = False
+        contador_secuencia = 0
+        for j in range(len(matriz[i])):
+            if matriz[i][j] == secuencia[contador_secuencia]:
+                if contador_secuencia < len(secuencia):
+                    contador_secuencia += 1
+                    bandera_secuencia = True
+                if contador_secuencia == len(secuencia) and bandera_secuencia == True:
+                    resultado = True
+            else:
+                bandera_secuencia = False
+                contador_secuencia = 0
+            if resultado == True:
+                break
+
+    if resultado == False:
+        print(f"La secuencia numérica {secuencia} no existe en la matriz.")
+    else:
+        print(f"La secuencia numérica {secuencia} existe en la matriz.")
     return resultado
 
-def mostrar_lista_formateada(lista:list):
+
+def mostrar_resultado_punto_3(conteo:int)->None:
     '''
-    La funcion muestra los elementos de una lista separada por guiones.
+    La funcion muestra la cantidad de caracteres A-Z en una lista.
+    Recibe la listas (list).
+    Retorna None.
+    '''
+    print("CARACTER | CANTIDAD")
+    print("---------+---------")
+    for i in range(26):
+        cantidad = conteo[i]  
+        caracter = chr(i + ord('A'))  
+        print(f"    {caracter}    |    {cantidad}")
+
+
+def buscar_valor(matriz:list, valor:int)-> bool:
+    '''
+    Busca el valor dado en la fila de la matriz dada.
+    Recibe una matriz (list). Matriz donde buscar un valor. Valor (int). Valor que se desea hallar.
+    Retorna un booleano (bool). Devuelve True si el valor esta en la matriz, caso contrario False.
+    '''
+    resultado = False
+    for fila in (matriz):
+        if valor in fila:
+            resultado = True
+    return resultado
+    
+def mostrar_resultado_punto_4(lista_a:list, lista_b:list)->None:
+    '''
+    La funcion muestra los elementos de dos listas.
+    Recibe la listas (list).
+    Retorna None.
+    '''
+    print("CARACTER | CANTIDAD")
+    print("---------+---------")
+    mostrar_lista(lista_a)
+    mostrar_lista(lista_b)
+    
+def mostrar_lista(lista:list):
+    '''
+    La funcion muestra los elementos de una lista.
     Recibe la lista (list).
     Retorna None.
     '''
-    resultado = ""
-    
-    for i in range(len(lista)):
-        resultado += str(lista[i])
-        if i < len(lista) - 1:  
-            resultado += " - "
-            
-    print(resultado, end="")
+    for elemento in lista:
+        print(f"    {elemento}    |", end="")
+    print("")
+        
+def menu_4_case(mensaje_a:str, mensaje_b:str, mensaje_c:str, mensaje_d:str="", mensaje_e:str="", mensaje_f:str="", mensaje_g:str="")->str:
+    '''
+    Menu basico pseudo generico.
+    Recibe
+        mensaje_a (str): Primera opcion del menu.
+        mensaje_b (str): Segunda opcion.
+        mensaje_c (str): Tercera opcion.
+        mensaje_d (str, optional): Cuarta opcion / opcional.
+        mensaje_e (str, optional): Quinta opcion / opcional.
+        mensaje_f (str, optional): sexta opcion / opcional.
+        mensaje_g (str, optional): septima opcion / opcional.
+    Retorna una cadena (str) con la opcion del menu elegida.
+    '''
+    limpiar_pantalla()
+    print("")
+    print("   -------Menu de opciones-------   ")
+    print(mensaje_a)
+    print(mensaje_b)
+    print(mensaje_c)
+    print(mensaje_d)
+    print(mensaje_e)
+    print(mensaje_f)
+    print(mensaje_g)
+    return input("Ingrese opcion: ")
+
+
+def limpiar_pantalla()->None:
+    '''
+    Limpia la pantalla de menu para mejor calidad visual.
+    No recibe valores.
+    Retorna None.
+    '''
+    system("cls")
+
+def pausar()->None:
+    '''
+    Permite pausar el programa para poder ver los print de este.
+    No recibe valores.
+    Retorna None.
+    '''
+    system("pause")
+
+def confirmar_salir(confirmacion:str)->bool:
+    '''
+    Espera la confirmacion de salida con "si" o "no".
+    Recibe la confirmacion (str). Input con la confirmacion.
+    Retorna True si la confimacion es "si", caso contrario retorna False.
+    '''
+    resultado = False
+    while confirmacion != "si" and confirmacion != "no":
+        confirmacion = input("Error, Elija solamente ['si' o 'no']: ")
+    if confirmacion == "si":
+        resultado = True
+    return resultado
