@@ -1,20 +1,5 @@
 import random
 
-def cargar_matriz_aleatoriamente(matriz:list):
-    seguir = "S"
-    while seguir == "S":
-        fila = int(input("Indice de la fila: "))
-        columna = int(input("Indice de columna: "))
-        dato = int(input("Ingrese el numero a cargar: "))
-        matriz[fila][columna] = dato
-        seguir = input("Desea seguir cargando? S/N")
-
-def buscar_valor_entero(matriz:list, valor:int):
-    for i in range(len(matriz)):
-        for j in range(len(matriz[i])):
-            if matriz[i][j] == valor:
-                print(f"Se encontro el numero en fila {i} columna {j}")
-
 def crear_matriz_aleatoria(cantidad_filas:int, cantidad_columnas:int, desde:int, hasta:int)->list:
     '''
     Carga en un matriz números aleatorios.
@@ -53,6 +38,11 @@ def ocultar_impares(matriz:list)->None:
         print("")
 
 def inicializar_matriz(cantidad_filas:int, cantidad_columnas:int, valor_inicial:any)->list:
+    '''
+    Asigna a una matriz valores iniciales.
+    Recibe una cantidad de filas y columnas (int).
+    Retorna la matriz inicializada.
+    '''
     matriz = []
     for _ in range(cantidad_filas):
         fila = [valor_inicial] * cantidad_columnas
@@ -148,180 +138,3 @@ def multiplicar_matrices(matriz_a:list, matriz_b:list)->list:
                 for k in range(len(matriz_b)):
                     matriz_resultante[i][j] += int(matriz_a[i][k]) * int(matriz_b[j][i])                    
     return matriz_resultante
-
-def crear_menu()->str:
-    """
-    La funcion crea un mensaje para que se pueda pedir una opcion de un menu.
-    No recibe valores por parametro.
-    Retorna el mensaje
-    """
-    menu = """
-    ===== Mi Programa =====
-    a) Generar una matriz con numeros aleatorios
-    b) Mostrar la matriz generada
-    c) Determinar si la matriz contiene series de numeros consecutivos
-    d) Determinar la cantidad total de series
-    e) Determinar el largo de la serie mas corta, y mostrar todas las series de ese largo
-    f) Determinar el largo de la serie mas larga, y mostrar todas las series de ese largo
-    g) Salir
-    ========================
-
-    Ingrese la opcion del menu: """
-    return menu
-
-def mostrar_series_longitud(matriz:list, longitud_buscada:int)->None:
-    """
-    Muestra las series de una longitud dada.
-    Recibe una matriz (list) y la longitud.
-    Retorna None.
-    """
-
-    for fila in matriz:
-        if longitud_serie(fila) == longitud_buscada:
-            print(fila)
-    for i in range(len(matriz[0])):
-        columna = []
-        for fila in matriz:
-            columna += [fila[i]]
-            if longitud_serie(columna) == longitud_buscada:
-                print(columna)
-
-def encontrar_series_largas(matriz: list)->int:
-    """
-    Haya la longitud de las series mas largas.
-    Recibe una matriz (list).
-    Retorna la longitud.
-    """
-
-    longitudes_series = []
-    for fila in matriz:
-        longitudes_series += [longitud_serie(fila)]
-    for i in range(len(matriz[0])):
-        columna = []
-        for fila in matriz:
-            columna += [fila[i]]
-            longitudes_series += [longitud_serie(columna)]
-
-    longitud_maxima = longitudes_series[0]
-    indice = 1
-    while indice < len(longitudes_series):
-        longitud = longitudes_series[indice]
-        if longitud > longitud_maxima:
-            longitud_maxima = longitud
-            indice += 1
-    return longitud_maxima
-
-def longitud_serie(lista: list)->int:
-    """
-    Haya la longitud de una serie.
-    Recibe una lista (list).
-    Retorna la longitud
-    """
-
-    longitud_actual = 0
-    longitud_maxima = 0
-    for i in range(len(lista) - 1):
-        if lista[i] + 1 == lista[i + 1]:
-            longitud_actual += 1
-        else:
-            if longitud_actual > longitud_maxima:
-                longitud_maxima = longitud_actual
-            longitud_actual = 0
-    if longitud_actual > longitud_maxima:
-        longitud_maxima = longitud_actual
-    if longitud_maxima < 2:
-        longitud_maxima = 0
-    return longitud_maxima
-
-def encontrar_series_cortas(matriz: list)->int:
-    """
-    Haya la longitud de las series mas cortas.
-    Recibe una matriz (list).
-    Retorna la longitud.
-    """
-
-    longitudes_series = []
-    for fila in matriz:
-        longitudes_series += [longitud_serie(fila)]
-    for i in range(len(matriz[0])):
-        columna = []
-        for fila in matriz:
-            columna += [fila[i]]
-            longitudes_series += [longitud_serie(columna)]
-
-    longitud_minima = longitudes_series[0]
-    indice = 1
-    while indice < len(longitudes_series):
-        longitud = longitudes_series[indice]
-        if longitud < longitud_minima:
-            longitud_minima = longitud
-            indice += 1
-    return longitud_minima
-
-def contar_series(lista:list)->int:
-    '''
-    Cuenta la cantidad de series que contiene una lista.
-    Recibe la matriz (list).
-    Retorna la cantidad.
-    '''
-    contador = 0
-    flag = False
-    for i in range(len(lista) - 1):
-        if lista[i] + 1 == lista[i + 1]:
-            if flag == False:
-                contador += 1
-                flag = True
-        else:
-            flag = False
-    return contador
-
-def contar_matriz_series(matriz:list)->int:
-    '''
-    Cuenta la cantidad de series que contiene una matriz.
-    Recibe la matriz (list).
-    Retorna la cantidad.
-    '''
-    contador = 0
-    for fila in matriz:
-        contador += contar_series(fila)
-
-    for i in range(len(matriz[0])):
-        columna = []
-        for fila in matriz:
-            columna += [fila[i]]
-            contador += contar_series(columna)
-    return contador
-
-def verificar_serie(lista:list)->bool:
-    '''
-    Determina si un lista contiene al menos una serie de numeros consecutivos.
-    Recibe la (list).
-    Retorna True si la lista contiene la serie o en caso contrario False.
-    '''
-    resultado = True
-    for i in range(len(lista) - 1):
-        if lista[i] + 1 != lista[i + 1]:
-            resultado = False
-            break
-    return resultado
-
-def determinar_matriz_series(matriz:list)->bool:
-    '''
-    Determina si una matriz contiene al menos una serie de numeros consecutivos.
-    Recibe una matriz (list).
-    Retorna True si la matriz contiene la serie o en caso contrario False.
-    '''
-    resultado = False
-    for fila in matriz:
-        if verificar_serie(fila):
-            resultado = True
-            break
-
-    for i in range(len(matriz[0])):
-        columna = []
-        for fila in matriz:
-            columna += [fila[i]]
-            if verificar_serie(columna):
-                resultado =  True
-                break
-    return resultado
