@@ -53,5 +53,5 @@
 
 
 
-resultado = print(calcular_cuil("92835736", "F"))
+resultado = calcular_cuil("92835736", "F")
 print(resultado)
