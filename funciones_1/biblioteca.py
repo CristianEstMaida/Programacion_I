@@ -116,21 +116,3 @@ def calcular_cuil(dni:str, tipo:str)->str:
 
     cuil = xy + "-" + dni + "-" + z
     return cuil
-
-def sumar_numeros(num_a:int, num_b:int)->int:
-    '''
-    Calcula la suma de dos numeros
-    Recibe dos numeros (int)
-    Retorna el resultado de la suma
-    '''
-    resultado = num_a + num_b
-    return resultado
-
-def dividir_numeros(num_a:int, num_b:int)->float:
-    '''
-    Calcula la division entre dos numeros
-    Recibe dos numeros (int)
-    Retorna el resultado de la division
-    '''
-    resultado = num_a / num_b
-    return resultado
