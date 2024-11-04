@@ -51,55 +51,7 @@
  11- 5 = 6
  Conclusión: CUIL-CUIT 20-12345678-6'''
 
-def mostrar_cuit(dni:int, tipo:str)->str:
-    '''
-    Calcula el CUIL-CUIT.
-    Recibe el dni (int) y el tipo (str).
-    Devuelve el CUIT-CUIT (str).
-    '''
-    match tipo:
-        case "MASCULINO":
-            xy = 20
-        case "FEMENINO":
-            xy = 27
-        case "EMPRESA":
-            xy = 30
-    
-    dni_1 = dni // 10000000
-    dni_2 = dni // 1000000 - dni // 10000000 * 10
-    dni_3 = dni // 100000 - dni // 1000000 * 10
-    dni_4 = dni // 10000 - dni // 100000 * 10
-    dni_5 = dni // 1000 - dni // 10000 * 10
-    dni_6 = dni // 100 - dni // 1000 * 10
-    dni_7 = dni // 10 - dni // 100 * 10
-    dni_8 = dni % 10
 
-    suma = 0
-    suma += (xy // 10) * 5
-    suma += xy % 10 * 4
-    suma += dni_1 * 3
-    suma += dni_2 * 2
-    suma += dni_3 * 7
-    suma += dni_4 * 6
-    suma += dni_5 * 5
-    suma += dni_6 * 4
-    suma += dni_7 * 3
-    suma += dni_8 * 2
-    z = suma // 11 
-    z = suma - z * 11
-    
-    if suma % 11 == 0:
-        z = 0
-    elif suma % 11 == 1:
-        if z == 9 and tipo == "MASCULINO":
-            xy = 23
-        if z == 4 and tipo == "FEMENINO":
-            xy = 23
-    else:
-        z = 11 - z
-    cuil_cuit = str(xy) + "-" + str(dni) + "-" + str(z)
-    return cuil_cuit
-    
 
-resultado = mostrar_cuit(39550055,"MASCULINO")
+resultado = print(calcular_cuil("92835736", "F"))
 print(resultado)
