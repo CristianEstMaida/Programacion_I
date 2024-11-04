@@ -239,29 +239,60 @@ def transformar_numero_a_letras(cadena: str)->str:
         letras = 'novecientos'
     if numero >= 101 and numero <= 199:
         letras += 'to '
-    if numero >= 201 and numero <= 299 or numero >= 301 and numero <= 399 or numero >= 401 and numero <= 499 or numero >= 501 and numero <= 699 or numero >= 701 and numero <= 799 or numero >= 801 and numero <= 899 or numero >= 901 and numero <= 999:
+    if numero >= 201 and numero <= 299 or numero >= 301 and numero <= 399 or (
+        numero >= 401 and numero <= 499) or (
+            numero >= 501 and numero <= 599) or (
+                numero >= 601 and numero <= 699) or (
+                    numero >= 701 and numero <= 799) or (
+                        numero >= 801 and numero <= 899) or (
+                            numero >= 901 and numero <= 999):
         letras += " "
-    if numero >= 16 and numero <= 19 or numero % 100 >= 16 and numero % 100 <= 19:
+    if numero >= 16 and numero <= 19 or (
+        numero % 100 >= 16 and numero % 100 <= 19):
         letras += 'dieci'
     if numero == 20 or numero % 100 == 20:
         letras += 'veinte'
-    if numero >= 21 and numero <= 29 or numero % 100 >= 21 and numero % 100 <= 29:
+    if numero >= 21 and numero <= 29 or (
+        numero % 100 >= 21 and numero % 100 <= 29):
         letras += 'veinti'
-    if numero >= 30 and numero <= 39 or numero % 100 >= 30 and numero % 100 <= 39:
+    if numero >= 30 and numero <= 39 or (
+        numero % 100 >= 30 and numero % 100 <= 39):
         letras += 'treinta'
-    if numero >= 40 and numero <= 49 or numero % 100 >= 40 and numero % 100 <= 49:
+    if numero >= 40 and numero <= 49 or (
+        numero % 100 >= 40 and numero % 100 <= 49):
         letras += 'cuarenta'
-    if numero >= 50 and numero <= 59 or numero % 100 >= 50 and numero % 100 <= 59:
+    if numero >= 50 and numero <= 59 or (
+        numero % 100 >= 50 and numero % 100 <= 59):
         letras += 'cincuenta'
-    if numero >= 60 and numero <= 69 or numero % 100 >= 60 and numero % 100 <= 69:
+    if numero >= 60 and numero <= 69 or (
+        numero % 100 >= 60 and numero % 100 <= 69):
         letras += 'sesenta'
-    if numero >= 70 and numero <= 79 or numero % 100 >= 70 and numero % 100 <= 79:
+    if numero >= 70 and numero <= 79 or (
+        numero % 100 >= 70 and numero % 100 <= 79):
         letras += 'setenta'
-    if numero >= 80 and numero <= 89 or numero % 100 >= 80 and numero % 100 <= 89:
+    if numero >= 80 and numero <= 89 or (
+        numero % 100 >= 80 and numero % 100 <= 89):
         letras += 'ochenta'
-    if numero >= 90 and numero <= 99 or numero % 100 >= 90 and numero % 100 <= 99:
+    if numero >= 90 and numero <= 99 or (
+        numero % 100 >= 90 and numero % 100 <= 99):
         letras += 'noventa'
-    if numero >= 31 and numero <= 39 or numero >= 41 and numero <= 49 or numero >= 51 and numero <= 59 or numero >= 61 and numero <= 69 or numero >= 71 and numero <= 79 or numero >= 81 and numero <= 89 or numero >= 91 and numero <= 99  or numero % 100 >= 31 and numero % 100 <= 39 or numero % 100 >= 41 and numero % 100 <= 49 or numero % 100 >= 51 and numero % 100 <= 59  or numero % 100 >= 61 and numero % 100 <= 69 or numero % 100 >= 71 and numero % 100 <= 79 or numero % 100 >= 81 and numero % 100 <= 89 or numero % 100 >= 91 and numero % 100 <= 99:
+    if numero >= 31 and numero <= 39 or numero >= 41 and numero <= 49 or (
+        numero >= 51 and numero <= 59 or numero >= 61 and numero <= 69) or (
+            numero >= 71 and numero <= 79) or (
+                numero >= 81 and numero <= 89) or (
+                    numero >= 91 and numero <= 99) or (
+                        numero % 100 >= 31 and numero % 100 <= 39) or (
+                            numero % 100 >= 41 and numero % 100 <= 49) or (
+                                numero % 100 >= 51 and (
+                                    numero % 100 <= 59)) or (
+                                    numero % 100 >= 61 and (
+                                        numero % 100 <= 69)) or (
+                                        numero % 100 >= 71 and (
+                                            numero % 100 <= 79)) or (
+                                            numero % 100 >= 81 and (
+                                                numero % 100 <= 89)) or (
+                                                numero % 100 >= 91 and (
+                                                    numero % 100 <= 99)):
         letras += ' y '
     if numero == 1 or numero % 10 == 1 and numero % 100 != 11:
         letras += 'uno'
